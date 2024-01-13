@@ -1,0 +1,40 @@
+{% load static %}
+<div class="header__menu">
+    <div class="menu__list">
+        {% for category in categories %}
+            <div class="menu__item__wrap">
+                <a class="menu__item {% if category.is_has_children %}has-children{% endif %}"
+                   href="{% url 'category' category.slug %}">{{ category.name }}
+                    {% if category.is_has_children %}
+                        <img class="arrow_down" src="{% static 'icons/down-arrow-svgrepo-com.svg' %}" alt="">
+                        <img class="arrow_up" src="{% static 'icons/up-arrow-svgrepo-com.svg' %}" alt=""> {% endif %}
+                </a>
+                {% if category.is_has_children %}
+                    <div class="submenu">
+                        <div class="submenu_cards">
+                            {% for child_category in category.children_categories.all %}
+                                <div class="submenu__card">
+                                    <a class="submenu-item" href="{% url 'category' child_category.slug %}">
+                                        <img class="submenu-image" src="{{ child_category.image.url }}"
+                                             alt="Submenu Arrow">
+                                    </a>
+                                    <div class="submenu__category__name">{{ child_category.name }}</div>
+                                </div>
+                            {% endfor %}
+                        </div>
+                        <div class="submenu__category__image">
+                            <img src="{{ category.preview_image }}" alt="">
+                        </div>
+                    </div>
+                {% endif %}
+            </div>
+        {% endfor %}
+        <div class="overlay"></div>
+    </div>
+    <div class="header__search__block">
+        <input class="search_input" type="text">
+        <div class="search_icon">
+            <img src="{% static 'icons/search-svgrepo-com.svg' %}" alt="">
+        </div>
+    </div>
+</div>

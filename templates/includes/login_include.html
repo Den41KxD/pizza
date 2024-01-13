@@ -1,0 +1,50 @@
+{% load i18n %}
+<div class="login_menu">
+    <button class="close_button close_button_login">&#10005;</button>
+    <form id="loginForm" action="/{{ LANGUAGE_CODE }}/account/login_action" method="post">
+        {% csrf_token %}
+        <div class="login_form__info">
+            <div class="title">{% trans 'АВТОРИЗАЦІЯ' %}</div>
+            <div class="text">{% trans 'Вкажіть свій номер телефону, щоб отримати доступ до вашої бонусної системи, збережених адрес доставки' %}</div>
+
+        </div>
+        <div class="login__form__inputs">
+            <input type="tel" name="phone_number" class="phone_number_input" required placeholder="+380_________" maxlength="13" minlength="13">
+            <input type="submit" class="submit_button" value="{% trans 'Send' %}">
+        </div>
+    </form>
+
+    <form class="code__input__form d-none" action="/{{ LANGUAGE_CODE }}/account/login" method="post">
+        {% csrf_token %}
+        <input type="hidden" name="phone_number" id="phone_number_input_h">
+        <div class="login_form__info">
+            <div class="text">{% trans 'Введіть отриманний код' %}</div>
+
+        </div>
+        <input type="tel" name="verification_code" class="phone_number_input" required maxlength="6">
+        <input type="submit" class="submit_button" value="{% trans 'Send' %}">
+    </form>
+</div>
+
+<script>
+$(document).ready(function() {
+    $("#loginForm").submit(function(event) {
+        event.preventDefault(); // Prevent the default form submission
+
+        var formData = new FormData($(this)[0]);
+
+        $.ajax({
+            type: "POST",
+            url: "/{{ LANGUAGE_CODE }}/account/login_action",
+            data: formData,
+            contentType: false,
+            processData: false,
+            success: function(response) {
+                console.log(response)
+                document.querySelector('.code__input__form').classList.remove('d-none')
+                document.querySelector('#phone_number_input_h').value = response['phone_number']
+            },
+        });
+    });
+});
+</script>

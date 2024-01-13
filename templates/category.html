@@ -1,0 +1,10 @@
+{% extends 'base.html' %}
+{% block content %}
+    {% include 'includes/breadcrumbs.html' %}
+    <span class="category__name">{{ category.name }}</span>
+    {% if category_filters %}
+        {% include 'includes/category_filters.html' %}
+    {% endif %}
+
+    {% include 'includes/products_list.html' %}
+{% endblock %}

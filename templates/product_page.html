@@ -1,0 +1,100 @@
+{% extends 'base.html' %}
+{% load i18n %}
+{% block content %}
+    {% include 'includes/breadcrumbs.html' %}
+    <div class="product_page__wrap">
+        <div class="product_page__wrap__grid">
+            <img src="{{ product.product_page_image }}" class="product_page__wrap__main_image" alt="product image">
+        </div>
+            <a class="product_page__wrap__grid_button" href="#buy_together__product_mobile">{% trans 'Tastes together' %}</a>
+            <div class="buy_together__product_desc">{% include 'includes/buy_together.html' %}</div>
+        <div class="product_page__wrap__grid">
+            <div class="grid_card product_page__wrap__grid__product_name row">
+                <span class="product_page__wrap__grid__product_name__name">{{ product.name }}</span>
+                <div style="display: inline-block">
+                    {% for label in product.labels.all %}
+                        <img src="{{ label.image.url }}" alt="">
+                    {% endfor %}
+
+                    {% for tag in product.tags.all %}
+                        <div class="product_tag"
+                             style="background: {{ tag.background_color }}; color: {{ tag.text_color }}; display: inline-block; margin-left: 5px">
+                            {{ tag.name }}
+                        </div>
+                    {% endfor %}
+
+                </div>
+            </div>
+            <div class="grid_card product_page__wrap__grid__product_info row">
+                <div class="product_info"> {{ product.weight }} {% trans 'g' %}
+                    {% if product.linked_product %}
+                        <div class="product_page_product_size_select">
+                            <div class="product_page__product_size active"
+                                 data-id="{{ product.linked_product.main_product.id }}">{{ product.linked_product.main_product_card_text }}</div>
+                            <div class="product_page__product_size"
+                                 data-id="{{ product.linked_product.linked_product.id }}"> {{ product.linked_product.linked_product_card_text }}</div>
+
+                        </div>
+                    {% endif %}
+                </div>
+
+                <div class="product_page__wrap__grid__product_info__price">
+                    <div class="price">{{ product.get_price }}
+                        <div class="currency">{% trans 'uah' %}</div>
+                    </div>
+                    <button class="add_to_cart">{% trans 'To Cart' %}</button>
+                </div>
+
+                {% if product.additional_info %}
+                    <div class="additional_info">
+                        <div class="additional_info__title">{{ product.additional_info.title }}</div>
+                        <div class="additional_info__text">{{ product.additional_info.text|safe }}</div>
+                    </div>
+                {% endif %}
+
+            </div>
+            {% if product.ingredients.last %}
+                <div class="grid_card product_page__wrap__grid__items row">
+                    <div class="product_page__wrap__grid__items_header">{% trans 'Ingredients' %} :</div>
+                    <div class="product_page__wrap__grid__items_items">
+                        {% for ingredient in product.ingredients.all %}
+                            <div class="product__ingredient_item">
+                                <img src="{{ ingredient.image.url }}" alt="">
+                                <span>{{ product.name }}</span>
+                            </div>
+                        {% endfor %}
+                    </div>
+                </div>
+            {% endif %}
+        </div>
+        <div id="buy_together__product_mobile">{% include 'includes/buy_together.html' %}</div>
+
+    </div>
+    <script>
+        function selectLinkedProduct() {
+            button = this
+            if (button.classList.contains('active')) {
+                return
+            } else {
+                document.querySelectorAll('.product_page__product_size').forEach(item => item.classList.remove('active'))
+                button.classList.add('active')
+            }
+            const product_id = button.dataset.id
+            $.ajax({
+                url: '/en/linked_prod_info',
+                data: {
+                    'product_id': product_id,
+                },
+                success: function (data) {
+                    console.log(data)
+                },
+            });
+
+        }
+
+        document.querySelectorAll('.product_page__product_size').forEach(item => item.addEventListener('click', selectLinkedProduct))
+        document.querySelector('.product_page__wrap__grid_button').addEventListener('click', function () {
+            console.log('qwer')
+        })
+    </script>
+{% endblock %}

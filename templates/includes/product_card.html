@@ -1,0 +1,27 @@
+{% load i18n %}
+<div class="product_card_wrap">
+    <div class="product_card">
+        <img src="{{ product.image }}" class="product_card__product_image" alt="Product Image">
+        <a href="{% url 'product' product.slug %}">
+            <div class="product_card__product_info">
+                {% include 'includes/product_tags.html' %}
+                {% include 'includes/product_labels.html' %}
+                <div class="main__product_info">
+                    <div class="product__name">{{ product.name }}</div>
+                    {% if product.linked_product %}
+                        <div class="product_size_select">
+                            <div class="product_size active" data-id="{{ product.linked_product.main_product.id }}">{{ product.linked_product.main_product_card_text }}</div>
+                            <div class="product_size" data-id="{{ product.linked_product.linked_product.id }}"> {{ product.linked_product.linked_product_card_text }}</div>
+                        </div>
+
+                    {% endif %}
+
+                    <div class="product_weight"> <span class="product_weight_value">{{ product.weight }} </span>{% trans 'g' %} </div>
+                    <div class="product_price"> <span class="product_price_value"> {{ product.get_price }} </span><span class="product_card__currency">грн</span>
+                        <div class="plus add_product_to_cart" data-id="{{ product.id }}"></div>
+                    </div>
+                </div>
+            </div>
+        </a>
+    </div>
+</div>

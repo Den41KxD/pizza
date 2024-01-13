@@ -1,0 +1,23 @@
+{% load i18n %}
+{% load static %}
+<div class="cart__product">
+    <img class="cart_product_image" src="{{ cart_item.product.image }}" alt="">
+    <div class="cart__product__info">
+        <div class="cart_item"> {{ cart_item.product.name }}</div>
+        <div class="cart_item"> {{ cart_item.product.weight }} {{ cart_item.product.unit }}</div>
+        <div class="cart_item"> {{ cart_item.product.get_price }} <span class="currency">{% trans 'uah' %}</span>
+            <div class="quantity__select">
+                <div class="quantity__select__subtract quantity__item subtract_product_from_cart {% if cart_item.quantity == 1 %} disabled
+
+                {% endif %} "
+                     data-id="{{ cart_item.product.id }}">-
+                </div>
+                <input type="number" disabled class="quantity__select__count" value="{{ cart_item.quantity }}">
+                <div class="quantity__select__add quantity__item add_product_to_cart"
+                     data-id="{{ cart_item.product.id }}">+
+                </div>
+            </div>
+            <img class="cart_item__trash" src="{% static 'icons/trash.svg' %}" data-id="{{ cart_item.product.id }}" alt="">
+        </div>
+    </div>
+</div>

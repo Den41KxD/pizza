@@ -1,0 +1,118 @@
+{% load utils %}
+
+{% load i18n %}
+{% load static %}
+
+
+<header class="header">
+    <div class="container">
+        <div class="logo">
+            <a href="{% url 'index' %}"><img src="{% static 'icons/IMG_2477.PNG' %}" alt="Logo"></a>
+        </div>
+        <div class="header__buttons">
+            <a href="#">{% trans 'About us' %}</a>
+            <a href="#">{% trans 'Delivery and payment' %}</a>
+            <a href="#">{% trans 'Promotions' %}</a>
+
+        </div>
+        <div class="contact">
+            <div class="phone-circle">
+                <img src="{% static 'icons/651704.svg' %}" alt="Small Phone Icon">
+            </div>
+            <span class="phone-number">123-456-7890</span>
+            <div class="language">
+                <div class="language-circle">
+                    <img src="{% static 'icons/language-svgrepo-com.svg' %}" alt="Language Icon">
+                </div>
+                <select id="language-select">
+                    <option value="ua" {% if LANGUAGE_CODE == 'ua' %}selected{% endif %} >UA</option>
+                    <option value="en" {% if LANGUAGE_CODE == 'en' %}selected{% endif %} >EN</option>
+                </select>
+            </div>
+        {% if request.user.id %}
+            <a href="#" class="account-link">
+                <div class="account-circle">
+                    <img src="{% static 'icons/home-svgrepo-com.svg' %}" alt="Account Icon">
+                </div>
+
+                {% trans 'My Account' %}
+            </a>
+            {% else %}
+            <a href="#" class="account-link login_reg">
+                <div class="account-circle">
+                    <img src="{% static 'icons/home-svgrepo-com.svg' %}" alt="Account Icon">
+                </div>
+
+                {% trans 'Log in' %}
+            </a>
+        {% endif %}
+
+        </div>
+    </div>
+</header>
+
+<header class="mobile_header">
+    <div class="burger__mobile__header">
+        <img src="{% static 'icons/icons8-menu.svg' %}" alt="" >
+    </div>
+    <div class="logo__mobile__header">
+        <a href="{% url 'index' %}"><img src="{% static 'icons/IMG_2477.PNG' %}" alt="Logo"></a>
+    </div>
+    <div class="card__mobile__header">
+        <img class="card__mobile" src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAEAAAABACAYAAACqaXHeAAAACXBIWXMAAAsTAAALEwEAmpwYAAACFElEQVR4nO3aPWgUQRgG4AmoAS0sRBCDYCmYztK/1n8rkYhoOhELrcTSIBELG0WxEYSY1kobi6hI7ASx0CKNNmrlv6CF8sjiBuTEXO5uJ7dzOw9s/e28uzOz++2GkGVZljUcXvnXT8zhGtaFQYZbFvYBo2FQYVx7r7E8DCJstDiHQ1NgBW62BDAdmgRbW6dBaBIM43tLCBtCk+BxSwBjoUkw2RLAR7zEE9zDbVzFBM7gOA5ge7F1YgQrQ6qwR3WK6fQWLzCLu5jCFZzHaRzDfmzDZqzHUD8DWF0+FfZb/8LDc+n6gXfY0UsA16Wv+90LY9L2qaep4M9KnrLZrgc/r3wZStWN0CtMS9epKgI4KV07qwhgVLrWVBHAEN5Lz5ueBz+vfPpKzf1QFZyTnssxGyQpGI/dIKm7LZUF8J8GSZ39wqpQJVyUjrlKBx+hQRLbnTDADZLFmKg8gMQaJIdCDNJpkGyKFcCYNFphy2IFMKL+nkUZfEINkqkQk/o3SM7GDuCEetsVO4C1NX4vKPoWw1EDqPnr8dGwVHAET8ttp5++lZ/Mdi/Z4LMsy+bhIB6Vi1FxPCy+1YdE63QElxZYnSdTq9PNFWlnXyp1Olbeju08SKVOx/B1ESf2JZU6sU7scyp1Olauwu3MpFKnY+Vvae3sTaVOVX+T/u1CanW6UmxBxSpcztXimIlxRZaqTpZlWRYa4DeKC8kZfe8QaQAAAABJRU5ErkJggg==">
+    </div>
+    <div class="cart_mobile">
+        <button class="close_button">&#10005;</button>
+    </div>
+
+    <div class="mobile_menu">
+        <button class="close_button">&#10005;</button>
+
+        <div class="mobile__menu_header">
+            <div class="row mobile__menu__account">
+                <a href="">
+                    <img class="mobile__menu__image" src="{% static 'icons/home-svgrepo-com.svg' %}" alt="">
+                    <span>{% trans 'My Account' %}</span>
+                </a>
+            </div>
+            <div class="mobile__menu_lang_switch">
+                <select id="language-select__mobile">
+                    <option value="ua" {% if LANGUAGE_CODE == 'ua' %}selected{% endif %} > UA</option>
+                    <option value="en" {% if LANGUAGE_CODE == 'en' %}selected{% endif %} >EN</option>
+                </select>
+            </div>
+        </div>
+
+        <ul class="row mobile__menu_links__catalog">
+            {% for category in categories %}
+                <div class="mobile__menu__link {% if category.is_has_children %} has-children {% endif %}">
+                    <a href="{% if not category.is_has_children %} {% url 'category' category.slug %} {% endif %}">
+                        <img src="{{ category.image.url }}" alt="">
+                        {{ category.name }}
+                        {% if category.is_has_children %}
+                            <img class="mobile__menu__link__arrow"
+                                 src="{% static 'icons/right-arrow-backup-2-svgrepo-com.svg' %}" alt="">
+                        {% endif %}
+                    </a>
+                    <ul class="row submenu_mobile">
+                        {% for child_category in category.children_categories.all %}
+                            <div class="submenu_mobile__menu__link" >
+                                <a class="submenu_mobile__link" href="{% url 'category' child_category.slug %}">
+                                     <img src="{{ child_category.image.url }}" alt="">
+                                    <span >{{ child_category.name }}</span>
+
+                                </a>
+                            </div>
+                        {% endfor %}
+                        <br>
+                        <li class="submenu_mobile__return">
+                            <a href="#" class="submenu-back">
+                                <img src="{% static 'icons/left-chevron-svgrepo-com.svg' %}" alt="Back">
+                            </a>
+                        </li>
+                    </ul>
+                </div>
+            {% endfor %}
+        </ul>
+    </div>
+</header>

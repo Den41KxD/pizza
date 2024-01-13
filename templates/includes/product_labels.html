@@ -1,0 +1,7 @@
+{% if product.labels %}
+    <div class="product_labels">
+        {% for label in product.labels.all %}
+            <img src="{{ label.image.url }}" alt="">
+        {% endfor %}
+    </div>
+{% endif %}

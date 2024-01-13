@@ -1,0 +1,28 @@
+{% load i18n %}
+{% load static %}
+{% load utils %}
+
+    <div class="cart_desc" {% if not request.session.cart %} style="display: none" {% endif %}>
+
+        <div class="cart_header">
+            <div class="cart_header_vis">
+                <img class="cart_icon"
+                     src="{% static 'icons/4105931-add-to-cart-buy-cart-sell-shop-shopping-cart_113919.svg' %}">
+                <div class="cart_len">{% cart_len request %}</div>
+            </div>
+            <a class="cart_header_unvis">{% trans 'Make order' %}</a>
+        </div>
+
+        <div class="cart_items">
+            {% cart_items request as cart_items %}
+            {% for cart_item in cart_items %}
+                {% include 'includes/cart_product.html' %}
+            {% endfor %}
+
+        </div>
+        <div class="cart_desc__total_price_wrap">
+            <div class="cart_total_price"><span class="total_price_sum">{{ cart_items.get_total_price }}</span> <span
+                    class="currency">{% trans 'uah' %}</span></div>
+        </div>
+    </div>
+

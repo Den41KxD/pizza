@@ -1,0 +1,9 @@
+{% if product.tags %}
+    <div class="product_tags">
+        {% for tag in product.tags.all %}
+            <div class="product_tag" style="background: {{ tag.background_color }}; color: {{ tag.text_color }}">
+                {{ tag.name }}
+            </div>
+        {% endfor %}
+    </div>
+{% endif %}

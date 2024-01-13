@@ -1,0 +1,15 @@
+{% load i18n %}
+<div class="buy_together">
+    {% for product in buy_together %}
+        <a href="{% url 'product' product.slug %}">
+            <div class="buy_together__product">
+                <img src="{{ product.image }}" alt="product image">
+                <div class="buy_together__product__product_info">
+                    <div class="buy_together__product__name">{{ product.name }}</div>
+                    <div class="buy_together__product__price">{{ product.price }} {% trans 'UAH' %}</div>
+                    <div class="plus add_product_to_cart add_product_to_cart_buy_together"></div>
+                </div>
+            </div>
+        </a>
+    {% endfor %}
+</div>

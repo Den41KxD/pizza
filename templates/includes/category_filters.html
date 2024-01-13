@@ -1,0 +1,34 @@
+<div class="category_filters_wrap">
+    {% for category_filter in category_filters %}
+        <div class="category_filter" data-id="{{ category_filter.id }}">{{ category_filter.name }}</div>
+    {% endfor %}
+</div>
+
+<script>
+    function get_active_filters_ids(){
+        let filter_param = []
+        for (const item of document.querySelectorAll('.category_filter.active')) {
+            filter_param.push(item.dataset.id)
+        }
+        return filter_param
+    }
+
+    document.querySelectorAll('.category_filter').forEach(item => item.addEventListener('click', function (event){
+        event.target.classList.toggle('active')
+        const active_filters_ids = get_active_filters_ids()
+        const category_id = {{ category.id }}
+
+        $.ajax({
+            url: '/en/get_filtered_products',
+            method: 'get',
+            data: {
+                'active_filters_ids': active_filters_ids,
+                'category_id': category_id,
+            },
+            success: function (data) {
+                document.querySelector('.product_list').innerHTML = data
+            },
+        });
+
+    }))
+</script>

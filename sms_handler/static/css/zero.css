@@ -1,0 +1,56 @@
+/* Reset or Normalize CSS */
+/* Remove default margin and padding */
+body, h1, h2, h3, h4, h5, h6, p, ul, ol, li, figure, figcaption, blockquote, dl, dd {
+    margin: 0;
+    padding: 0;
+}
+
+/* Set box-sizing to border-box for all elements */
+*, *::before, *::after {
+    box-sizing: border-box;
+}
+
+/* Set font size and line height for better readability */
+body {
+    font-size: 16px;
+    line-height: 1.5;
+}
+
+/* Remove list styles */
+ul, ol {
+    list-style: none;
+}
+
+/* Remove underline from links */
+a {
+    text-decoration: none; /* Убрать подчеркивание */
+    outline: none; /* Убрать подсвечивание при клике */
+}
+a:hover {
+    color:black;
+    outline: black;
+}
+
+/* Reset form elements */
+button, input, select, textarea {
+    margin: 0;
+    padding: 0;
+    border: none;
+    background: none;
+    font-family: inherit;
+    font-size: inherit;
+    line-height: inherit;
+}
+
+
+.quantity__select__count[type="number"] {
+    -moz-appearance: textfield;
+}
+
+
+/* Скрываем стандартные стрелочки в других браузерах */
+.quantity__select__count::-webkit-outer-spin-button,
+.quantity__select__count::-webkit-inner-spin-button {
+    -webkit-appearance: none;
+    appearance: none;
+}

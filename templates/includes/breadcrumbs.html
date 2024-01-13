@@ -1,0 +1,7 @@
+{% load i18n %}
+<div class="breadcrumbs">
+    <a href="{% url 'index' %}" class="breadcrumbs__link"> {% trans 'Home' %}</a>
+    {% for category_breadcrumb in category_breadcrumbs %}
+        <a href="/category/{{ category_breadcrumb.slug }}" class="breadcrumbs__link"> / {{ category_breadcrumb.name }}  </a>
+    {% endfor %}
+</div>
